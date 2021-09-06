@@ -4,3 +4,6 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: admin
     password: admin
+
+logging.level:
+  org.springframework.jdbc.core: TRACE

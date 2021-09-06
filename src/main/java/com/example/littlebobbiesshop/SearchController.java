@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class MainController {
+public class SearchController {
 
   final JdbcTemplate jdbcTemplate;
 
   @GetMapping("/")
   public String main(Model model) {
+    model.addAttribute("query", "");
     return "search";
   }
 
@@ -31,6 +32,7 @@ public class MainController {
         .map(row -> new SearchResult((Long) row.get("id"), (String) row.get("name"), (Integer) row.get("preis")))
         .collect(Collectors.toList());
     model.addAttribute("searchresults", searchResults);
+    model.addAttribute("query", query);
     return "search";
   }
 
