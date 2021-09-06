@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Little Bobbies Shop of Horrror</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.1.0/css/bootstrap.min.css} "/>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Welcome to Little Bobbies Shop of Horror</h1>
+
+  <form method="post">
+    <div class="mb-3">
+      <label for="searchTerm" class="form-label">Produktsuche</label>
+      <input type="text" class="form-control" id="searchTerm" aria-describedby="searchTermHelp" name="query">
+      <div id="searchTermHelp" class="form-text">Suchen sie einfach nach dem gewünschten Produkt.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Suchen</button>
+
+    <input
+        type="hidden"
+        th:name="${_csrf.parameterName}"
+        th:value="${_csrf.token}"/>
+  </form>
+
+  <div th:if="${searchresults != null}">
+  <table class="table">
+
+    <thead>
+    <tr>
+      <th scope="col">Produkt-ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Preis</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sr : ${searchresults}">
+      <td th:text="${sr.id}">1</td>
+      <td th:text="${sr.artikelName}">Title ...</td>
+      <td th:text="${sr.preis}">Text ...</td>
+    </tr>
+    </tbody>
+
+  </table>
+  </div>
+
+</div>
+
+
+<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>
