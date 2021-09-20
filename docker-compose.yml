@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  reverse-proxy:
+    image: traefik:v2.5
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "$HOME/acme.json:/acme.json"
+      - "$HOME/traefik.yml:/etc/traefik/traefik.yml"
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: db
+  app:
+    image: schrom.azurecr.io/littlebobby:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    labels:
+      - traefik.http.routers.app.rule=Host(`littlebobby.shop`)
+      - traefik.http.routers.app.tls=true
+      - traefik.http.routers.app.tls.certresolver=myresolver
+      - traefik.http.services.app.loadbalancer.server.port=8080
+
